@@ -19,6 +19,11 @@ t = np.linspace(0, duration, int(sampling_rate * duration), endpoint=False)
 # Generate sine wave
 sine_wave1 = amplitude * np.sin(2 * np.pi * frequency * t)
 
+# Export the first sine wave to sine.wav
+print("Exporting first sound file to 'sine.wav'")
+sf.write('code/sine.wav', sine_wave1, sampling_rate)
+print("Done")
+
 # Plot the sine wave
 #print("Plotting sine wave on graph...")
 #plt.plot(t, sine_wave1)
@@ -36,14 +41,9 @@ sine_wave2 = 2 * amplitude * np.sin(2 * np.pi * frequency * t)
 clipping_level = 8192
 clipped_wave = np.clip(sine_wave2, -clipping_level, clipping_level)
 
-# Export the first sine wave to sine.wav
-print("Exporting first sound file to 'sine.wav'")
-sf.write('sine.wav', sine_wave1, sampling_rate)
-print("Done")
-
 # Export the second sine wave to clipped.wav
-print("Exporting second sound file to 'sclipped.wav'")
-sf.write('clipped.wav', clipped_wave, sampling_rate)
+print("Exporting second sound file to 'clipped.wav'")
+sf.write('code/clipped.wav', clipped_wave, sampling_rate)
 print("Done")
 
 # Plot the original and clipped sine waves
