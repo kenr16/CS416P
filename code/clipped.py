@@ -55,3 +55,8 @@ plt.ylabel('Amplitude')
 plt.legend()
 plt.show()
 print("Sine waves plotted.")
+
+# Play the clipped sound wave to the computer's audio
+
+sd.play(clipped_wave)
+sd.wait()  # Wait until playback is finished
