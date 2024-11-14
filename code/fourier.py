@@ -1,6 +1,9 @@
+print("Starting dependency imports...")
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io.wavfile as wavfile
+print("Dependencies successfully imported.")
+
 
 # Create a sample signal
 time = np.linspace(0, 1, 1000)  # Time vector
