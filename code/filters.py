@@ -1,6 +1,7 @@
 print("Starting dependency imports...")
 import numpy as np
 from scipy.signal import butter, filtfilt
+# import scipy.fftpack as fftpack
 import matplotlib.pyplot as plt
 import soundfile as sf
 print("Dependencies successfully imported.")
@@ -33,57 +34,85 @@ def bandpass_filter(data, low_cutoff_frequency, high_cutoff_frequency, sampling_
     y = filtfilt(b, a, data)
     return y # Returns the filtered audio data as a NumPy array.
 
+# Calculate the sound energy of audio
+print("Creating sound energy function...")
+def sound_energy(data):
+    fourier_transform = np.fft.fft(data)  # Use the Fast Fourier Transform (FFT)
+    magnitude_spectrum = np.abs(fourier_transform)
+    power_spectrum = magnitude_spectrum ** 2
+    sound_energy = np.sum(power_spectrum)
+    return sound_energy
+
+# Sound band energy equalization function
+print("Creating sound band equalization function...")
+def equalize_bands(low_band, mid_band, high_band):
+    low_energy = sound_energy(low_band)
+    mid_energy = sound_energy(mid_band)
+    high_energy = sound_energy(high_band)
+    average_energy = (low_energy + mid_energy + high_energy) / 3
+    print("Low energy ratio: " + str(low_energy/average_energy))
+    print("Band energy ratio: " + str(mid_energy/average_energy))
+    print("High energy ratio: " + str(high_energy/average_energy))
+    equalized_low_band = low_band / (low_energy/average_energy)
+    equalized_mid_band = mid_band / (mid_energy/average_energy)
+    equalized_high_band = high_band / (high_energy/average_energy)
+    equalized_audio = equalized_low_band + equalized_mid_band + equalized_high_band
+    return equalized_audio
+
 # Load audio file and get sampling rate
 print("Retriving audio file...")
-data, sampling_rate = sf.read('audio.wav') #data: The audio data as a NumPy array.
+data, sampling_rate = sf.read('code\dont_speak-no_doubt.wav') #data: The audio data as a NumPy array.
 
 #Create and apply low-pass filter
 print("Applying low-pass filter...")
-cutoff_frequency = 100000  #Hz
+cutoff_frequency = 300  #Hz
 filter_order = 5
-filtered_data = lowpass_filter(data, cutoff_frequency, sampling_rate)
-
-# Saving filtered audio
-print("Saving audio file...")
-sf.write('low_filtered_audio.wav', filtered_data, sampling_rate)
+filtered_data_low = lowpass_filter(data, cutoff_frequency, sampling_rate, 5)
 
 #Create and apply high-pass filter
 print("Applying high-pass filter...")
-cutoff_frequency = 1000  #Hz
+cutoff_frequency = 2000  #Hz
 filter_order = 5
-filtered_data = highpass_filter(data, cutoff_frequency, sampling_rate)
-
-# Saving filtered audio
-print("Saving audio file...")
-sf.write('high_filtered_audio.wav', filtered_data, sampling_rate)
+filtered_data_high = highpass_filter(data, cutoff_frequency, sampling_rate, 5)
 
 #Create and apply band-pass filter
 print("Applying band-pass filter...")
-low_cutoff_frequency = 1000  #Hz
-high_cutoff_frequency = 100000  #Hz
+low_cutoff_frequency = 300  #Hz
+high_cutoff_frequency = 2000  #Hz
 filter_order = 5
-filtered_data = bandpass_filter(data, low_cutoff_frequency, high_cutoff_frequency, sampling_rate)
+filtered_data_band = bandpass_filter(data, low_cutoff_frequency, high_cutoff_frequency, sampling_rate, 5)
 
 # Saving filtered audio
-print("Saving audio file...")
-sf.write('band_filtered_audio.wav', filtered_data, sampling_rate)
+print("Saving audio files...")
+sf.write('code/low_filtered_audio.wav', filtered_data_low, sampling_rate)
+sf.write('code/high_filtered_audio.wav', filtered_data_high, sampling_rate)
+sf.write('code/band_filtered_audio.wav', filtered_data_band, sampling_rate)
+
+# Equalizie the audio bands
+print("Equalizing the audio bands...")
+equalized_audio_data = equalize_bands(filtered_data_low, filtered_data_high, filtered_data_band)
+sf.write('code/equalized_audio.wav', equalized_audio_data, sampling_rate)
 
 #Create sample data
-print("Creating sample data...")
-time = np.linspace(0, 1, 1000)  #Time vector
-data = np.sin(2*np.pi*150*time) + np.random.rand(1000)  #Create example sine wave
+#print("Creating sample data...")
+#time = np.linspace(0, 1, 1000)  #Time vector
+#data = np.sin(2*np.pi*150*time) + np.random.rand(1000)  #Create example sine wave
 
 #Plot the graph of the signals
-print("Plotting graph of the signals...")
-plt.figure(figsize=(10, 6))
-plt.plot(time, data, label='Original Signal')
-plt.plot(time, filtered_data, label='Filtered Signal')
-plt.xlabel('Time in seconds')
-plt.ylabel('Amplitude')
-plt.title('Low-Pass Filter')
-plt.legend()
-plt.grid(True)
-plt.show()
+#print("Plotting graph of the signals...")
+#plt.figure(figsize=(10, 6))
+#plt.plot(time, data, label='Original Signal')
+#plt.plot(time, filtered_data_low, label='Low Filtered Signal')
+#plt.plot(time, filtered_data_high, label='High Filtered Signal')
+#plt.plot(time, filtered_data_band, label='Band Filtered Signal')
+#plt.xlabel('Time in seconds')
+#plt.ylabel('Amplitude')
+#plt.title('Low-Pass Filter')
+#plt.legend()
+#plt.grid(True)
+#plt.show()
+
+
 
 
 

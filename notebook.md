@@ -11,3 +11,6 @@ Sunday, November 10th, created filters.py, which contains a low pass filter for 
 Wednesday, November, 13th, created add.py, a program that adds together three sine waves and analyses the fourier transform of the waves.  This shows that the  fourier transform can not only be used to isolate the specific component frequencies that make up a combined wave, but also used to isolate the amplitude of these component waves individually.
 
 Sunday, November 17th, updated both add.py and filters.py, making them into functions ofr more modularity.  This will allow me to export these functions at a later date, presumably for use in a larger project later on.  Also finished the high-pass and band-pass filters and will need to check them for functionality on various different audio files next.
+
+Friday, November 22nd, added a function to filters.py that calculates the sound energy of an audio sample.  Using this, I created an equilization function that equalizes the three bands that were previously created by the low, band and high pass filters preiously created by finding out what the energy ratios are to each other.  From there, the amplitude is simply multiplied by the inverse of the ratios, and then the three bands are added back together again.  It was interesting to hear the modified audio output after each of the band filters had been applied.
+
