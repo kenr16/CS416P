@@ -43,7 +43,7 @@ clipped_wave = np.clip(sine_wave2, -clipping_level, clipping_level)
 
 # Export the second sine wave to clipped.wav
 print("Exporting second sound file to 'clipped.wav'")
-sf.write('code/clipped.wav', clipped_wave, sampling_rate)
+sf.write('sound/clipped.wav', clipped_wave, sampling_rate)
 print("Done")
 
 # Plot the original and clipped sine waves

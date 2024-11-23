@@ -61,7 +61,7 @@ def equalize_bands(low_band, mid_band, high_band):
 
 # Load audio file and get sampling rate
 print("Retriving audio file...")
-data, sampling_rate = sf.read('code\dont_speak-no_doubt.wav') #data: The audio data as a NumPy array.
+data, sampling_rate = sf.read('sound\dont_speak-no_doubt.wav') #data: The audio data as a NumPy array.
 
 #Create and apply low-pass filter
 print("Applying low-pass filter...")
@@ -84,14 +84,14 @@ filtered_data_band = bandpass_filter(data, low_cutoff_frequency, high_cutoff_fre
 
 # Saving filtered audio
 print("Saving audio files...")
-sf.write('code/low_filtered_audio.wav', filtered_data_low, sampling_rate)
-sf.write('code/high_filtered_audio.wav', filtered_data_high, sampling_rate)
-sf.write('code/band_filtered_audio.wav', filtered_data_band, sampling_rate)
+sf.write('sound/low_filtered_audio.wav', filtered_data_low, sampling_rate)
+sf.write('sound/high_filtered_audio.wav', filtered_data_high, sampling_rate)
+sf.write('sound/band_filtered_audio.wav', filtered_data_band, sampling_rate)
 
 # Equalizie the audio bands
 print("Equalizing the audio bands...")
 equalized_audio_data = equalize_bands(filtered_data_low, filtered_data_high, filtered_data_band)
-sf.write('code/equalized_audio.wav', equalized_audio_data, sampling_rate)
+sf.write('sound/equalized_audio.wav', equalized_audio_data, sampling_rate)
 
 #Create sample data
 #print("Creating sample data...")
