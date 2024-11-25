@@ -1,9 +1,7 @@
 print("Starting dependency imports...")
 import numpy as np
 from scipy.signal import butter, filtfilt
-# import scipy.fftpack as fftpack
-import matplotlib.pyplot as plt
-import soundfile as sf
+from scipy.io import wavfile
 print("Dependencies successfully imported.")
 
 # Define a low-pass filter function
@@ -61,7 +59,7 @@ def equalize_bands(low_band, mid_band, high_band):
 
 # Load audio file and get sampling rate
 print("Retriving audio file...")
-data, sampling_rate = sf.read('sound\dont_speak-no_doubt.wav') #data: The audio data as a NumPy array.
+sampling_rate, data = wavfile.read('sound/dont_speak-no_doubt.wav')
 
 #Create and apply low-pass filter
 print("Applying low-pass filter...")
@@ -82,16 +80,22 @@ high_cutoff_frequency = 2000  #Hz
 filter_order = 5
 filtered_data_band = bandpass_filter(data, low_cutoff_frequency, high_cutoff_frequency, sampling_rate, 5)
 
-# Saving filtered audio
-print("Saving audio files...")
-sf.write('sound/low_filtered_audio.wav', filtered_data_low, sampling_rate)
-sf.write('sound/high_filtered_audio.wav', filtered_data_high, sampling_rate)
-sf.write('sound/band_filtered_audio.wav', filtered_data_band, sampling_rate)
-
 # Equalizie the audio bands
 print("Equalizing the audio bands...")
 equalized_audio_data = equalize_bands(filtered_data_low, filtered_data_high, filtered_data_band)
-sf.write('sound/equalized_audio.wav', equalized_audio_data, sampling_rate)
+
+
+# Saving filtered audio
+print("Saving audio files...")
+wavfile.write('sound/low_filtered_audio.wav', sampling_rate, filtered_data_low.astype(np.int16))
+wavfile.write('sound/high_filtered_audio.wav', sampling_rate, filtered_data_high.astype(np.int16))
+wavfile.write('sound/band_filtered_audio.wav', sampling_rate, filtered_data_band.astype(np.int16))
+wavfile.write('sound/equalized_audio.wav', sampling_rate, equalized_audio_data.astype(np.int16))
+
+
+#sampling_rate, data = wavfile.read('sound/africa-toto.wav')
+#wavfile.write('sound/echoed_audio.wav', sampling_rate, echoed_data)
+
 
 #Create sample data
 #print("Creating sample data...")
