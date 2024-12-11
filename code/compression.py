@@ -5,7 +5,7 @@ def read_file_as_binary(filename):
         binary_string = ''.join(format(byte, '08b') for byte in binary_data)
     return binary_string
     
-binary_string = read_file_as_binary('your_file.txt')
+binary_string = read_file_as_binary('sound/white_noise.wav')
 print('The file in binary data form:')
 print(binary_string)
 

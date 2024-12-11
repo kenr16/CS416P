@@ -6,11 +6,11 @@ print("Dependencies successfully imported.")
 
 # Read the WAV file
 print("Reading in the .wav files...")
-samplerate1, data1 = wavfile.read('code\sine.wav')
+samplerate1, data1 = wavfile.read('sound/sine.wav')
 print("Sample rate:", samplerate1)
 print("Data:", data1)
 
-samplerate2, data2 = wavfile.read('code\clipped.wav')
+samplerate2, data2 = wavfile.read('sound/clipped.wav')
 print("Sample rate:", samplerate2)
 print("Data:", data2)
 
