@@ -1,2 +1,5 @@
 *
 !.gitignore
+!clipped.wav
+!sine.wav
+!white_noise.wav
