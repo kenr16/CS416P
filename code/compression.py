@@ -179,5 +179,6 @@ print(len(binary_data))
 print("RLE file length:")
 print(len(rle_data))
 
+
 print("Huffman Encoded file length:")
 print(len(encoded_huffman_string))
